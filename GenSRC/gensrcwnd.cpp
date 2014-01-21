@@ -74,12 +74,21 @@ void GenSrcWnd::Execloops(U32 times,ExecFun fun,QString &prefix)
         fun(prefix);
     }
 }
+QStringList headlist;
 
 void GenSrcWnd::setHeaderFilePrefix(QString & prefix,QString filename)
 {
     QDate currentDate;
     QString header;
     StrClear(header);
+    headlist.clear();
+#if 0
+    headlist<<"/**********************************************************************"ENTER;
+    for(int i=0;i<headlist.size();i++)
+        prefix+=headlist.at(i);
+
+
+#else
     prefix="/**********************************************************************"ENTER;
     prefix+="* $Id$			";
     prefix+=filename;
@@ -144,7 +153,14 @@ void GenSrcWnd::setHeaderFilePrefix(QString & prefix,QString filename)
     prefix+="#endif"ENTER;
 
     Execloops(2,AddENTERToHeader,prefix);
-    prefix+="/* Public Types --------------------------------------------------------------- */";
+    prefix+="/* Private Types --------------------------------------------------------------- */"ENTER;
+    Execloops(2,AddENTERToHeader,prefix);
+    prefix+="/* Private Variables ----------------------------------------------------------- */"ENTER;
+    Execloops(2,AddENTERToHeader,prefix);
+
+    prefix+="/* Public Types ---------------------------------------------------------------- */"ENTER;
+    Execloops(2,AddENTERToHeader,prefix);
+    prefix+="/* Public Variables ------------------------------------------------------------ */"ENTER;
 
     Execloops(2,AddENTERToHeader,prefix);
     //定义宏
@@ -159,9 +175,10 @@ void GenSrcWnd::setHeaderFilePrefix(QString & prefix,QString filename)
 
     //定义函数
     Execloops(5,AddENTERToHeader,prefix);
-    prefix+="/*      functions -----------------*/"ENTER;
+    prefix+="/* Private     functions -------------------------------------------------------*/"ENTER;
+    Execloops(4,AddENTERToHeader,prefix);
+    prefix+="/* Public      functions -------------------------------------------------------*/"ENTER;
     Execloops(20,AddENTERToHeader,prefix);
-
 
 
     prefix+="/**"ENTER;
@@ -189,6 +206,7 @@ void GenSrcWnd::setHeaderFilePrefix(QString & prefix,QString filename)
     Execloops(1,AddENTERToHeader,prefix);
     prefix+="/* --------------------------------- End Of File ------------------------------ */";
     prefix+=ENTER;//添加最后一空行
+#endif
 
 }
 
@@ -251,9 +269,7 @@ void GenSrcWnd::setCFilePrefix(QString &prefix, QString filename)
     prefix+="/** @defgroup  xxxx"ENTER;
     prefix+="* @{"ENTER;
     prefix+="*/"ENTER;
-    Execloops(1,AddENTERToHeader,prefix);
-
-    Execloops(5,AddENTERToHeader,prefix);
+    Execloops(4,AddENTERToHeader,prefix);
 
     prefix+="/* End of Private Variables ----------------------------------------------------*/"ENTER;
     prefix+="/**"ENTER;
