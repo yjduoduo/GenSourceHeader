@@ -188,6 +188,7 @@ void GenSrcWnd::setHeaderFilePrefix(QString & prefix,QString filename)
     prefix+="*/"ENTER;
     Execloops(1,AddENTERToHeader,prefix);
     prefix+="/* --------------------------------- End Of File ------------------------------ */";
+    prefix+=ENTER;//添加最后一空行
 
 }
 
@@ -296,7 +297,7 @@ void GenSrcWnd::setCFilePrefix(QString &prefix, QString filename)
     prefix+="*/"ENTER;
     Execloops(1,AddENTERToHeader,prefix);
     prefix+="/* --------------------------------- End Of File ------------------------------ */";
-
+    prefix+=ENTER;//添加最后一空行
 }
 
 void GenSrcWnd::setCPPFilePrefix(QString &prefix, QString filename)
